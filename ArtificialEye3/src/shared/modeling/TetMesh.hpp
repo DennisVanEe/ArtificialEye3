@@ -11,7 +11,6 @@ namespace ee
 {
 
 	// A basic tetrahedron structure
-	// I might add other features to it in the future, but I don't think I will.
 	class Tet
 	{
 	public:

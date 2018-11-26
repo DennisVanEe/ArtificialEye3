@@ -132,6 +132,8 @@
     <ClInclude Include="src\shared\ArtificialEye.hpp" />
     <ClInclude Include="src\shared\modeling\Mesh.hpp" />
     <ClInclude Include="src\shared\modeling\TetMesh.hpp" />
+    <ClInclude Include="src\soft_body\particles\FVParticle.hpp" />
+    <ClInclude Include="src\soft_body\particles\Particle.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
