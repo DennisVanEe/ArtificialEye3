@@ -1,31 +1,37 @@
 #pragma once
 
+#include <memory>
 #include "../../shared/ArtificialEye.hpp"
 
 namespace ee
 {
-	// passive objects will act like the muscle in this case
-	enum class ParticleType { PASSIVE, ACTIVE };
-
-	class Particle
+	namespace sb
 	{
-	public:
-		Particle(Float mass, ParticleType type) :
-			m_type(type),
-			m_mass(mass) {}
+		// passive objects will act like the muscle in this case
+		enum class ParticleType { PASSIVE, ACTIVE };
 
-		void resetForces() { m_rForce = Vec3(0); }
+		class Particle
+		{
+		public:
+			Particle(Float mass, ParticleType type) :
+				m_type(type),
+				m_mass(mass) {}
 
-		virtual void update(Float time) = 0;
-		virtual Particle* getCopy() const = 0;
+			void resetForces() { m_rForce = Vec3(0); }
 
-	public:
-		Vec3  m_cPos;
-		Vec3  m_pPos;
-		Vec3  m_cVel;
-		Vec3  m_rForce;
-		Float m_mass;
+			Vec3 currParticle() const { return m_cPos; }
 
-		ParticleType m_type;
-	};
+			virtual void update(Float time) = 0;
+			virtual std::unique_ptr<Particle> getCopy() const = 0;
+
+		public:
+			Vec3  m_cPos;
+			Vec3  m_pPos;
+			Vec3  m_cVel;
+			Vec3  m_rForce;
+			Float m_mass;
+
+			ParticleType m_type;
+		};
+	}
 }
