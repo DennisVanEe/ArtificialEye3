@@ -17,6 +17,8 @@ namespace ee
 		public:
 			SimTetCell(SimTetMesh* mesh, std::array<int, 5> tets) :
 				m_mesh(mesh), m_tets(tets) {}
+			SimTetCell(SimTetMesh* mesh, int* tets) :
+				m_mesh(mesh) { std::copy(tets, tets + 5, m_tets.begin()); }
 
 		private:
 			SimTetMesh* m_mesh;

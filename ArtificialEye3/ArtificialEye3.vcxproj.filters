@@ -47,5 +47,8 @@
     <ClInclude Include="src\soft_body\bodies\SimTetCellMesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\renderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

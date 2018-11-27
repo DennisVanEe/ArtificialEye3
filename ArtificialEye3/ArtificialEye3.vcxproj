@@ -129,6 +129,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\renderer\renderer.hpp" />
     <ClInclude Include="src\shared\ArtificialEye.hpp" />
     <ClInclude Include="src\shared\modeling\Mesh.hpp" />
     <ClInclude Include="src\shared\modeling\TetMesh.hpp" />
