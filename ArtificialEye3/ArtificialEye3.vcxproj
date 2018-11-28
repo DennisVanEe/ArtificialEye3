@@ -70,16 +70,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)dependencies\glm\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\glm\include;$(SolutionDir)dependencies\osg\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)dependencies\glm\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\glm\include;$(SolutionDir)dependencies\osg\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)dependencies\glm\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\glm\include;$(SolutionDir)dependencies\osg\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)dependencies\glm\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\glm\include;$(SolutionDir)dependencies\osg\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -133,6 +133,7 @@
     <ClInclude Include="src\shared\ArtificialEye.hpp" />
     <ClInclude Include="src\shared\modeling\Mesh.hpp" />
     <ClInclude Include="src\shared\modeling\TetMesh.hpp" />
+    <ClInclude Include="src\shared\Utility.hpp" />
     <ClInclude Include="src\soft_body\bodies\SimTetMesh.hpp" />
     <ClInclude Include="src\soft_body\bodies\SimTetCellMesh.hpp" />
     <ClInclude Include="src\soft_body\bodies\TetrahedronCell.hpp" />

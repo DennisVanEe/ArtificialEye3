@@ -1,46 +1,92 @@
 #pragma once
 
 #include <vector>
+#include <array>
 
 #include "../ArtificialEye.hpp"
 
 namespace ee
 {
-	struct PosVert { Vec3 pos; };
+	struct Vertex { Vec3 pos; };
+	struct TexVert : public Vertex { Vec3 tex; };
 
-	// NOTE: All _VertType need a pos member.
-	template<class _PrimType, class _VertType>
-	class Mesh
+	// Generic face type:
+	template<class _T>
+	class tFace
 	{
 	public:
-		Mesh() {}
-		Mesh(std::vector<_VertType> vertices, std::vector<_PrimType> primitives) :
-			m_vertices(vertices), m_primitives(primitives) {}
+		tFace() {}
+		tFace(_T v0, _T v1, _T v2) : m_data({ v0, v1, v2 }) {}
 
-		int numVert() const { return m_vertices.size(); }
-		int numPrim() const { return m_primitives.size(); }
-
-		const _PrimType& primAt(int i) const { return m_primitives[i]; }
-
-		const _VertType& vertAt(int i) const  { return m_vertices[i]; }
-		_VertType& vertAt(int i) { return m_vertices[i]; }
-
-		void primVertAt(_VertType* data, int i) const
-		{
-			const _PrimType& prim = primAt(i);
-			for (int i = 0; i < _PrimType::size(); i++) { data[i] = vertAt(prim[i]); }
-		}
-
-		// Having just the positional information is often more useful than having all
-		// vertex data. So we provide a way to access them this way.
-		void primPosAt(Vec3* data, int i) const
-		{
-			const _PrimType& prim = primAt(i);
-			for (int i = 0; i < _PrimType::size(); i++) { data[i] = vertAt(prim[i]).pos; }
-		}
+		const _T operator[](int i) const { return m_data[i]; }
+		// Not sure if this is how you do it but this should work:
+		std::remove_reference<_T>::type& operator[](int i) { return m_data[i]; }
 
 	private:
-		std::vector<_VertType> m_vertices;
-		std::vector<_PrimType> m_primitives;
+		std::array<_T, 3> m_data;
+	};
+
+	// A mesh face is always a triangle. This way ray intersection and rendering works as normal.
+    // A face declared here is used for indexing.
+	using FaceIndex = tFace<int>;
+	// Stores references so that modifying values here modifies the actual values
+	// that belong to the mesh.
+	using FaceRef = tFace<Vec3&>;
+	// Stores the vertices themselves if no reference is needed (not planning on modifying anything).
+	using Face = tFace<Vec3>;
+
+	// The same as the above, but this includes the entire vertex if required:
+	template<class _VertType> using FaceRefVert = tFace<_VertType&>;
+	template<class _VertType> using FaceVert = tFace<_VertType>;
+
+	template<class _VertType>
+	class Mesh
+	{
+		static_assert(std::is_base_of_v<Vertex, _VertType>, "_VertType must inherit from Vertex");
+
+	public:
+		Mesh() {}
+		Mesh(std::vector<_VertType> vertices, std::vector<FaceIndex> faces) :
+			m_verts(vertices), m_faces(faces) {}
+
+		void setVertices(std::vector<_VertType> vertices) { m_verts = vertices; }
+		void setFaceIndices(std::vector<FaceIndex> faces) { m_faces = faces; }
+
+		int numVert() const { return m_verts.size(); }
+		int numFace() const { return m_faces.size(); }
+
+		_VertType getVertAt(int i) const { return m_verts[i]; }
+		FaceIndex getFaceIndexAt(int i) const { return m_faces[i]; }
+
+		FaceRef getFaceRefAt(int i)
+		{
+			const FaceIndex in = m_faces[i];
+			return FaceRef(m_verts[in[0]].pos, m_verts[in[1]].pos, m_verts[in[2]].pos);
+		}
+
+		Face getFaceAt(int i) const
+		{
+			const FaceIndex in = m_faces[i];
+			return Face(m_verts[in[0]].pos, m_verts[in[1]].pos, m_verts[in[2]].pos);
+		}
+
+		FaceRefVert<_VertType> getFaceRefVertAt(int i)
+		{
+			const FaceIndex in = m_faces[i];
+			return FaceRefVert<_VertType>(m_verts[in[0]], m_verts[in[1]], m_verts[in[2]]);
+		}
+
+		FaceVert<_VertType> getFaceVertAt(int i)
+		{
+			const FaceIndex in = m_faces[i];
+			return FaceVert<_VertType>(m_verts[in[0]], m_verts[in[1]], m_verts[in[2]]);
+		}
+
+		void setVertAt(int i, _VertType v) { m_verts[i] = v; }
+		void setFaceIndexAt(int i, FaceIndex f) { m_faces[i] = f; }
+
+	protected:
+		std::vector<_VertType> m_verts;
+		std::vector<FaceIndex> m_faces;
 	};
 }
