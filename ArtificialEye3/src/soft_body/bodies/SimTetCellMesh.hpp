@@ -8,6 +8,8 @@ namespace ee
 {
 	namespace sb
 	{
+
+
 		template<class _VertType>
 		class SimTetCell
 		{

@@ -29,16 +29,10 @@
     <ClInclude Include="src\shared\modeling\Mesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\soft_body\particles\Particle.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\soft_body\bodies\TetrahedronCell.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\soft_body\conversion\TetrahedralConv.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\soft_body\particles\TetParticle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\soft_body\bodies\SimTetMesh.hpp">
@@ -51,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\shared\Utility.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\soft_body\particles\Particle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\soft_body\bodies\FVSim.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

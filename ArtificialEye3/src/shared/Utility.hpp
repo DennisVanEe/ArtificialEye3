@@ -23,19 +23,4 @@ namespace ee
 		seed ^= h1 + 0x9e3779b9 + (seed << 6) + (seed >> 2);
 		return seed;
 	}
-
-	std::bitset<128> hash3(int a, int b, int c)
-	{
-		using bs128 = std::bitset<128>;
-
-		// First we sort it:
-		if (a > b) { std::swap(a, b); }
-		if (b > c) { std::swap(b, c); }
-		if (a > b) { std::swap(a, b); }
-
-		bs128 result;
-		result.reset();
-		result |= bs128(a) | (bs128(b) << (sizeof(int) * 8)) | (bs128(c) << (sizeof(int) * 8 * 2));
-		return result;
-	}
 }

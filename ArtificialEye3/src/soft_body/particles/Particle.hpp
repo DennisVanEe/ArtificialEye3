@@ -5,33 +5,36 @@
 
 namespace ee
 {
-	namespace sb
+	class Particle
 	{
-		// passive objects will act like the muscle in this case
-		enum class ParticleType { PASSIVE, ACTIVE };
+	public:
+		// free refers to whether or not a particle can move:
+		Particle() {}
+		Particle(Float mass, bool free) : mass(mass), free(free) {}
 
-		class Particle
-		{
-		public:
-			Particle(Float mass, ParticleType type) :
-				m_type(type),
-				m_mass(mass) {}
+		void resetForces() { rForce = Vec3(0); }
 
-			void resetForces() { m_rForce = Vec3(0); }
+	public:
+		Vec3  cPos;   // current position
+		Vec3  pPos;   // previous position
 
-			Vec3 currParticle() const { return m_cPos; }
+		Vec3  cVel;   // current velocity
+		Vec3  rForce; // all forces on the object
+		Float mass;
 
-			virtual void update(Float time) = 0;
-			virtual std::unique_ptr<Particle> getCopy() const = 0;
+		bool  free;
+	};
 
-		public:
-			Vec3  m_cPos;
-			Vec3  m_pPos;
-			Vec3  m_cVel;
-			Vec3  m_rForce;
-			Float m_mass;
+	// A particle associated with a vertex in a mesh
+	class MeshParticle : public Particle
+	{
+	public:
+		MeshParticle(Float mass, bool free, int index, Vec3 pos) :
+			Particle(mass, free), vertIndex(index) {
+			cPos = pPos = pos;
+		}
 
-			ParticleType m_type;
-		};
-	}
+	public:
+		const int vertIndex;
+	};
 }
