@@ -3,8 +3,10 @@
 #include <vector>
 #include <array>
 #include <algorithm>
+#include <unordered_map>
 
 #include "../ArtificialEye.hpp"
+#include "../Utility.hpp"
 #include "Mesh.hpp"
 
 namespace ee
@@ -43,13 +45,42 @@ namespace ee
 		TetMesh(std::vector<_VertType> vertices, std::vector<TetIndex> tets) :
 			Mesh(vertices, std::move(std::vector<FaceIndex>())), m_tets(tets) {}
 
+		// Generates a shell of the mesh for rendering and what not
 		void genShellMesh()
 		{
 			// The shell of a tetrahedron (which only needs to be computed once, mind you)
 			// Is the collection of faces such that only one tetrahedron has ownership of it.
 
-			// Doing this requires some helper functions:
+			Mesh::m_faces.clear(); // In case you want to redo the shell
 
+			// Doing this requires some helper functions:
+			std::unordered_map<HashableFaceIndex, int> faceCounts;
+			for (const TetIndex& ti : m_tets)
+			{
+				// All faces of a tetrahedron:
+				std::array<HashableFaceIndex, 4> tetFaces = 
+				{
+					HashableFaceIndex(ti[0], ti[1], ti[2]),
+					HashableFaceIndex(ti[0], ti[1], ti[3]),
+					HashableFaceIndex(ti[0], ti[2], ti[3]),
+					HashableFaceIndex(ti[1], ti[2], ti[3])
+				};
+
+				// Hash and increment them:
+				for (HashableFaceIndex in : tetFaces)
+				{
+					auto it = faceCounts.find(in);
+					if (it == faceCounts.end()) { faceCounts.insert(std::make_pair(in, 1)); }
+					else { it->second++; }
+				}
+			}
+
+			// Now we go through and find all faces with a count of 1 (that is, they are only associated with 1 tet)
+			// So now the m_faces stores all the shells
+			for (const auto& [face, count] : faceCounts)
+			{
+				if (count == 1) { Mesh::m_faces.push_back(face); }
+			}
 		}
 
 		int numTet() const { return m_tets.size(); }

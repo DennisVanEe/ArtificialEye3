@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <array>
+#include <functional>
 
 #include "../ArtificialEye.hpp"
 
@@ -22,7 +23,7 @@ namespace ee
 		// Not sure if this is how you do it but this should work:
 		std::remove_reference<_T>::type& operator[](int i) { return m_data[i]; }
 
-	private:
+	protected:
 		std::array<_T, 3> m_data;
 	};
 
@@ -34,6 +35,26 @@ namespace ee
 	using FaceRef = tFace<Vec3&>;
 	// Stores the vertices themselves if no reference is needed (not planning on modifying anything).
 	using Face = tFace<Vec3>;
+
+	// A special face designed for use with hashing.
+	// It makes sure that the elements are of a certain order.
+	// This way faces with different ordering will still equal each other
+	class HashableFaceIndex : public FaceIndex
+	{
+	public:
+		HashableFaceIndex() : FaceIndex() {}
+		HashableFaceIndex(int v0, int v1, int v2) : FaceIndex(v0, v1, v2) { sort3(m_data[0], m_data[1], m_data[2]); }
+	};
+
+	class FaceIndexHash
+	{
+	public:
+		size_t operator()(const HashableFaceIndex& index) const
+		{
+			static std::hash<int> hasher;
+			return hashCombine(hashCombine(hasher(index[0]), hasher(index[1])), hasher(index[2]));
+		}
+	};
 
 	// The same as the above, but this includes the entire vertex if required:
 	template<class _VertType> using FaceRefVert = tFace<_VertType&>;
