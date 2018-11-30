@@ -104,6 +104,7 @@ namespace ee
 		}
 
 		void setVertAt(int i, _VertType v) { m_verts[i] = v; }
+		void setPosAt(int i, Vec3 p) { m_verts[i].pos = p; }
 		void setFaceIndexAt(int i, FaceIndex f) { m_faces[i] = f; }
 
 	protected:

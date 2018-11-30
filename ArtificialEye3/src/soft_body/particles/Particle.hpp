@@ -12,6 +12,10 @@ namespace ee
 		Particle() {}
 		Particle(Float mass, bool free) : mass(mass), free(free) {}
 
+		void applyForces()
+		{
+
+		}
 		void resetForces() { rForce = Vec3(0); }
 
 	public:
