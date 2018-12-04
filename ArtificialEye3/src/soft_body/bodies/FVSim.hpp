@@ -10,10 +10,24 @@
 namespace ee
 {
 	// A TetCell is a collection of 5 tetrahedron as described in the paper.
+	template<class _VertType>
 	class TetCell
 	{
 	public:
 		
+		Float lambda(const TetMesh<_VertType>* mesh) const
+		{
+
+		}
+
+		Float volume(const TetMesh<_VertType>* mesh) const
+		{
+			std::array<Vec3, 8> pos;
+			for (int i = 0; i < 8; i++) { pos[i] = mesh->getPosAt(m_particleIndices[i]); }
+
+			Float v0 = volumeTet(pos[0], pos[1], pos[2], pos[3]);
+			Float v2 = volumeTet(pos)
+		}
 
 	private:
 		std::array<int, 16> m_springIndicies;

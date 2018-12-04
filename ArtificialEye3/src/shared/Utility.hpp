@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ArtificialEye.hpp"
 #include <bitset>
 
 namespace ee
@@ -14,6 +15,14 @@ namespace ee
 		if (a > b) { std::swap(a, b); }
 		if (b > c) { std::swap(b, c); }
 		if (a > b) { std::swap(a, b); }
+	}
+
+	Float volumeTet(Vec3 v0, Vec3 v1, Vec3 v2, Vec3 v3)
+	{
+		Vec3 ab = v1 - v0;
+		Vec3 ac = v2 - v0;
+		Vec3 bc = v3 - v0;
+		return (1. / 6.) * glm::dot(ab, glm::cross(ac, bc));
 	}
 
 	size_t hashCombine(size_t h0, size_t h1)

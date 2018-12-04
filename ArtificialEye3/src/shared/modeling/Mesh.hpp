@@ -77,6 +77,7 @@ namespace ee
 		int numFace() const { return m_faces.size(); }
 
 		_VertType getVertAt(int i) const { return m_verts[i]; }
+		Vec3 getPosAt(int i) const { return m_verts[i].pos; }
 		FaceIndex getFaceIndexAt(int i) const { return m_faces[i]; }
 
 		FaceRef getFaceRefAt(int i)

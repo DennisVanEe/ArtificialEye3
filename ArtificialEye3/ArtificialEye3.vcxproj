@@ -142,6 +142,7 @@
     <ClInclude Include="src\soft_body\bodies\TetrahedronCell.hpp" />
     <ClInclude Include="src\soft_body\conversion\TetrahedralConv.hpp" />
     <ClInclude Include="src\soft_body\particles\Particle.hpp" />
+    <ClInclude Include="src\soft_body\spring\spring.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
